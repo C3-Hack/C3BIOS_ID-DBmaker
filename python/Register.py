@@ -22,16 +22,26 @@ class Error(wx.Frame):
         self.Close(True)
 
 ####登録完了の画面
-class tourokuC(wx.Frame,):
+class tourokuC(wx.Frame):
     def __init__(self,parent):
+        ##ファイル読み込み
+        with open('data.csv','r') as file:
+            self.lines=file.readlines()
+        row=self.lines[-1].split(',')
+
         ##フレーム
         wx.Frame.__init__(self,parent,1,"登録完了",pos=(300,300),size=(600,300))
         panel = wx.Panel(self)
 
         ##テキスト
-        font = wx.Font(40, wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
-        self.tourokuCtext = wx.StaticText(panel,-1, '登録完了！',pos=(50,100))
+        font = wx.Font(20, wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.tourokuCtext = wx.StaticText(panel,-1, '登録完了！',pos=(50,50))
         self.tourokuCtext.SetFont(font)
+
+        ##IDm,SDI,HNテキスト
+        self.IDm_C_text = wx.StaticText(panel,-1, "IDm:"+row[0],pos=(50,100))
+        self.SDI_C_text = wx.StaticText(panel,-1, "SID:"+row[1],pos=(50,120))
+        self.tourokuCtext = wx.StaticText(panel,-1,"HN:"+row[2].strip(),pos=(50,140))
         ##閉じるボタン
         self.exitBtn = wx.Button(panel,label="息の根を止める",pos=(500,250))
         self.Bind(wx.EVT_BUTTON,self.exit,self.exitBtn)
@@ -52,16 +62,14 @@ class Touroku(wx.Frame):
         font = wx.Font(40, wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
         font1=wx.Font(20, wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
         ##テキスト
-        self.IDmtext=wx.StaticText(panel,-1, 'IDm',pos=(50,100))
         self.studentnumbertext=wx.StaticText(panel,-1, 'SID',pos=(50,200))
         self.handlenametext=wx.StaticText(panel,-1, 'HN',pos=(50,300))
 
         self.studentnumbertext.SetFont(font)
         self.handlenametext.SetFont(font)
-        self.IDmtext.SetFont(font)
 
         ##IDmのテキスト
-        self.IDmnumbertext=wx.StaticText(panel,-1, self.lines[-1].strip(),pos=(150,100))
+        self.IDmnumbertext=wx.StaticText(panel,-1, "IDm  "+self.lines[-1].strip(),pos=(50,100))
         self.IDmnumbertext.SetFont(font)
         ##入力フォーム
         #self.IDm= wx.TextCtrl(panel, -1,pos=(150,100),size=(300,60))
