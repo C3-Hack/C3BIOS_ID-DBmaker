@@ -42,11 +42,15 @@ class tourokuC(wx.Frame,):
 ####登録画面のクラス
 class Touroku(wx.Frame):
     def __init__(self,parent,id):
+        ##IDmの読み込み
+        with open('data1.csv', 'r') as file:
+            self.lines=file.readlines()
         ##フレーム
         wx.Frame.__init__(self,parent,id,"登録画面",size=(600,600))
         panel = wx.Panel(self)
         panel.SetBackgroundColour('#AFAFAF')
         font = wx.Font(40, wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        font1=wx.Font(20, wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
         ##テキスト
         self.IDmtext=wx.StaticText(panel,-1, 'IDm',pos=(50,100))
         self.studentnumbertext=wx.StaticText(panel,-1, 'SID',pos=(50,200))
@@ -55,12 +59,16 @@ class Touroku(wx.Frame):
         self.studentnumbertext.SetFont(font)
         self.handlenametext.SetFont(font)
         self.IDmtext.SetFont(font)
+
+        ##IDmのテキスト
+        self.IDmnumbertext=wx.StaticText(panel,-1, self.lines[-1].strip(),pos=(150,100))
+        self.IDmnumbertext.SetFont(font)
         ##入力フォーム
-        self.IDm= wx.TextCtrl(panel, -1,pos=(150,100),size=(300,60))
+        #self.IDm= wx.TextCtrl(panel, -1,pos=(150,100),size=(300,60))
         self.studentnumber = wx.TextCtrl(panel, -1,pos=(150,200),size=(300,60))
         self.handlename= wx.TextCtrl(panel, -1,pos=(150,300),size=(300,60))
 
-        self.IDm.SetFont(font)
+        #self.IDm.SetFont(font)
         self.studentnumber.SetFont(font)
         self.handlename.SetFont(font)
 
@@ -72,7 +80,7 @@ class Touroku(wx.Frame):
 
     def check(self,event):
          ##入力を取得
-        self.IDm1=self.IDm.GetValue()
+        #self.IDm1=self.IDm.GetValue()
         self.studentnumber1=self.studentnumber.GetValue()
         self.handlename1=self.handlename.GetValue()
         ## csvの読み込み
@@ -81,20 +89,16 @@ class Touroku(wx.Frame):
             reader = csv.reader(f)
             for row in reader:
                 ##登録されているか検査
-                if(row[0]==self.IDm1):
+                if(row[1]==self.studentnumber1):
                     flag=-1
                     break
                 else:
-                    if(row[1]==self.studentnumber1):
+                    if(row[2]==self.handlename1):
                         flag=-1
                         break
                     else:
-                        if(row[2]==self.handlename1):
-                            flag=-1
-                            break
-                        else:
-                            flag=1
-                            ##エラー検出
+                        flag=1
+            ##エラー検出
             if(flag<0):
                 self.showChild(self)
             ##登録
@@ -102,7 +106,7 @@ class Touroku(wx.Frame):
             ##csvに書き込む
                 with open('data.csv','a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([self.IDm1,self.studentnumber1,self.handlename1])
+                    writer.writerow([self.lines[-1].strip(),self.studentnumber1,self.handlename1])
                 self.showChild2(self)
 
     def showChild(self,event):
