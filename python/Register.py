@@ -114,7 +114,7 @@ class Touroku(wx.Frame):
             ##csvに書き込む
                 with open('data.csv','a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([self.lines[-1].strip(),self.studentnumber1,self.handlename1])
+                    writer.writerow([self.lines[-1].strip('/n'),self.studentnumber1,self.handlename1])
                 self.showChild2(self)
 
     def showChild(self,event):
