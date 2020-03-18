@@ -69,7 +69,7 @@ class Touroku(wx.Frame):
         self.handlenametext.SetFont(font)
 
         ##IDmのテキスト
-        self.IDmnumbertext=wx.StaticText(panel,-1, "IDm  "+self.lines[-1].strip(),pos=(50,100))
+        self.IDmnumbertext=wx.StaticText(panel,-1, "IDm  "+self.lines[-1].strip('\n'),pos=(50,100))
         self.IDmnumbertext.SetFont(font)
         ##入力フォーム
         #self.IDm= wx.TextCtrl(panel, -1,pos=(150,100),size=(300,60))
